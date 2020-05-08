@@ -3,7 +3,7 @@ This is a local documentation search engine based on official documentation rele
 The idea is to make a local offline copy of all available documentation and after use grep to search for what you are looking for. The advantage here is that you can search on multiple documentation pages for different projects at the same time. Some sort of "offline documentation search engine running on CMD".<br><br>
 The tongue-update.sh script will take care of downloading the pages for you while tongue.sh will prompt you with what is needed to perform the search you want. Note that the search is performed through html and pdf files<br><br>
 
-# Installatin and usage:<br>
+# Installation and usage:<br>
 0 - Install pdfgrep in your system (available via apt-get, yum, etc)
 1 - Download the tongue-update.sh and tongue.sh scripts<br><br>
 2 - Set execution permissions to both scripts: "sudo chmod a+x tongue-update.sh ; sudo chmod a+x tongue.sh"<br><br>
