@@ -1,14 +1,5 @@
 #!/bin/bash
-#echo " "
-#echo "You are about to download all necessary pages to perform searches with "tongue" command."
-#echo "Some pages require authentication to proceed."
-#echo "Type the username use to authenticate to the mailing lists (http://lists.suse.com/). Example: user@suse.com:"
-#read MAILINGUSER
-#echo "Now the password:"
-#read MAILPASSWD
-#DOCUMENTATION AND RELEASE NOTES
 DOCUMENTPATH=$HOME/Documents/tongue
-
 
 #UBUNTU DOCUMENTATION
 #20.04 (LTS)
@@ -134,6 +125,80 @@ wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.opensta
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/queens/configuration/ --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/queens/configuration/ --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/queens/configuration/ --directory-prefix $DOCUMENTPATH
+#Stein
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/stein/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/stein/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/stein/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/stein/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/stein/configuration/ --directory-prefix $DOCUMENTPATH
+#Train
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/train/install/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/train/admin/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/train/user/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/glance/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/ironic/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/cinder/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/nova/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/horizon/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/keystone/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/neutron/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/swift/train/configuration/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/train/configuration/ --directory-prefix $DOCUMENTPATH
 #Generic guides
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/install-guide/ --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg,svg -t 1 https://docs.openstack.org/arch-design/ --directory-prefix $DOCUMENTPATH
