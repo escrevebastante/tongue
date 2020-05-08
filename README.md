@@ -4,7 +4,7 @@ The idea is to make a local offline copy of all available documentation and afte
 The tongue-update.sh script will take care of downloading the pages for you while tongue.sh will prompt you with what is needed to perform the search you want. Note that the search is performed through html and pdf files<br><br>
 
 # Installation and usage:<br>
-0 - Install pdfgrep in your system (available via apt-get, yum, etc)
+0 - Install pdfgrep in your system (available via apt-get, yum, etc)<br><br>
 1 - Download the tongue-update.sh and tongue.sh scripts<br><br>
 2 - Set execution permissions to both scripts: "sudo chmod a+x tongue-update.sh ; sudo chmod a+x tongue.sh"<br><br>
 3 - Copy the scripts to /usr/bin with: "sudo cp tongue-update.sh /usr/bin/tongue-update ; sudo cp tongue.sh /usr/bin/tongue"<br><br>
