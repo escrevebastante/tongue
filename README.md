@@ -14,7 +14,6 @@ The tongue-update.sh script will take care of downloading the pages for you whil
 # Examples:<br>
 List documentations or ask for help: tongue -h or -l"<br>
 Image search: tongue -t CLOUD-INIT -s SEARCH -I (options: -i for case-insensitive search)"<br>
-Mailing list search: tongue -m MAILINGLIST -s SEARCH (options: -i for case-insensitive search)"<br>
 Ubuntu Documentation search: tongue -u DOCUMENTATION -s SEARCH_STRING (options: -i for case-sensitive search)"<br>
 Kubernetes documentation: tongue -k RELEASENOTE -s SEARCH_STRING (options: -i for case-sensitive search)"<br><br>
  
