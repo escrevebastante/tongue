@@ -515,7 +515,6 @@ if [ "$HELP" = "yes" ] && [ "$FILE" = "" ]; then
     echo "Examples:"
     echo "List documentations or ask for help: tongue -h or -l"
     echo "Image search: tongue -t CLOUD-INIT -s SEARCH -I (options: -i for case-insensitive search)"
-    echo "Mailing list search: tongue -m MAILINGLIST -s SEARCH (options: -i for case-insensitive search)"
     echo "Ubuntu Documentation search: tongue -u DOCUMENTATION -s SEARCH_STRING (options: -i for case-sensitive search)"
     echo "Kubernetes documentation: tongue -k RELEASENOTE -s SEARCH_STRING (options: -i for case-sensitive search)"
     echo " "
