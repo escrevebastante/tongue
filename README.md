@@ -15,8 +15,10 @@ The tongue-update.sh script will take care of downloading the pages for you whil
 List documentations or ask for help: tongue -h or -l"<br>
 Image search: tongue -t CLOUD-INIT -s SEARCH -I (options: -i for case-insensitive search)"<br>
 Ubuntu Documentation search: tongue -u DOCUMENTATION -s SEARCH_STRING (options: -i for case-sensitive search)"<br>
-Kubernetes documentation: tongue -k RELEASENOTE -s SEARCH_STRING (options: -i for case-sensitive search)"<br><br>
- 
+Kubernetes documentation: tongue -k RELEASENOTE -s SEARCH_STRING (options: -i for case-sensitive search)"<br>
+Search on all openstack documentation: tongue -e '*' -s 'nova' <br>
+Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '*' -s ocfs2\|nfs <br><br>
+
 # Option list:<br>
 -a, --calibre = Search on Calibre library"<br>
 -c, --ceph = Search on Ceph official documentation"<br>
