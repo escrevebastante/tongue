@@ -201,6 +201,6 @@ wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.opensta
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/heat/train/configuration/ --directory-prefix $DOCUMENTPATH
 #Generic guides
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/install-guide/ --directory-prefix $DOCUMENTPATH
-wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg,svg -t 1 https://docs.openstack.org/arch-design/ --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/arch-design/ --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/operations-guide/ --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.openstack.org/security-guide/ --directory-prefix $DOCUMENTPATH
