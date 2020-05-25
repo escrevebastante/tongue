@@ -1,5 +1,4 @@
 #!/bin/bash
-#test
 # declare variables and get parameters
 RED='\033[0;31m' # Red color
 NC='\033[0m' # No Color
