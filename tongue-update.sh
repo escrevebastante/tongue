@@ -1,6 +1,56 @@
 #!/bin/bash
 DOCUMENTPATH=$HOME/Documents/tongue
 
+#MCP DOCUMENTATION
+#q3-17
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-17/mcp-standard-configuration/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-17/mcp-deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-17/mcp-operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-17/mcp-security-best-practices/single/index.html --directory-prefix $DOCUMENTPATH
+#q4-17
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-17/mcp-standard-configuration/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-17/mcp-deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-17/mcp-operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-17/mcp-security-best-practices/single/index.html --directory-prefix $DOCUMENTPATH
+#q1-18
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q1-18/mcp-standard-configuration/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q1-18/mcp-deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q1-18/mcp-operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q1-18/mcp-security-best-practices/single/index.html --directory-prefix $DOCUMENTPATH
+#q2-18
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q2-18/mcp-standard-configuration/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q2-18/mcp-deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q2-18/mcp-operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q2-18/mcp-security-best-practices/single/index.html --directory-prefix $DOCUMENTPATH
+#q3-18
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-18/mcp-standard-configuration/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-18/mcp-deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-18/mcp-operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q3-18/mcp-security-best-practices/single/index.html --directory-prefix $DOCUMENTPATH
+#q4-18
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-18/mcp-standard-configuration/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-18/mcp-deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-18/mcp-operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-18/mcp-security-best-practices/single/index.html --directory-prefix $DOCUMENTPATH
+
+#UCP DOCUMENTATION
+#Docker enterprise v2.1
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v2.1/dockeree-products/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v2.1/dockeree-ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v2.1/dockeree-solution-guides/single/index.html --directory-prefix $DOCUMENTPATH
+#Docker enterprise v3.1
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-products/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-solution-guides/single/index.html --directory-prefix $DOCUMENTPATH
+# MOS - Mirantis OpenStack for Kubernetes Documentation
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/ops-guide/single/index.html --directory-prefix $DOCUMENTPATH
+# Mirantis Container Cloud
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+
 #UBUNTU DOCUMENTATION
 #20.04 (LTS)
 wget -c -N -r --no-parent -t 1 https://assets.ubuntu.com/v1/59989c24-ubuntu-server-guide.pdf --directory-prefix $DOCUMENTPATH
@@ -49,6 +99,10 @@ wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.co
 
 #SYSTEMD DOCUMENTATION
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://systemd.io --directory-prefix $DOCUMENTPATH
+
+#RABBITMQ DOCUMENTATION
+wget -c -N -r --no-parent -A https://www.rabbitmq.com/admin-guide.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A https://www.rabbitmq.com/clients.html --directory-prefix $DOCUMENTPATH
 
 #OPENSTACK
 #Rocky

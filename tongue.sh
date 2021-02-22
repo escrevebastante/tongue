@@ -10,10 +10,13 @@ CEPH=
 CLOUDINIT=
 KERNEL=
 KUBERNETES=
+MCP=
 MANPAGES=
 MODULE=
 OPENSTACK=
+RABBITMQ=
 SYSTEMD=
+UCP=
 UBUNTU=
 
 CALIBRESEARCH=
@@ -21,10 +24,13 @@ CEPHSEARCH=
 CLOUDINITSEARCH=
 KERNELSEARCH=
 KUBERNETESSEARCH=
+MCPSEARCH=
 MANPAGESSEARCH=
 MODULESEARCH=
 OPENSTACKSEARCH=
+RABBITMQSEARCH=
 SYSTEMDSEARCH=
+UCPSEARCH=
 UBUNTUSEARCH=
 
 CASE=-i
@@ -34,11 +40,14 @@ CALIBREPATH=$HOME/Documents/calibre
 CEPHPATH=$HOME/Documents/tongue/docs.ceph.com/docs/master
 CLOUDINITPATH=$HOME/Documents/tongue/cloudinit.readthedocs.io/en/latest/topics
 KERNELPATH=$HOME/Documents/tongue/www.kernel.org/doc/html/latest
+MCPPATH=$HOME/Documents/tongue/docs.mirantis.com/mcp
 KUBERNETESPATH=$HOME/Documents/tongue/kubernetes.io/docs
 MANPAGESPATH=$HOME/Documents/tongue/man7.org/linux/man-pages
 MODULEPATH=$HOME/Documents/tongue/cateee.net/lkddb/web-lkddb
 OPENSTACKPATH=$HOME/Documents/tongue/docs.openstack.org
+RABBITMQPATH=$HOME/Documents/tongue/www.rabbitmq.com
 SYSTEMDPATH=$HOME/Documents/tongue/www.freedesktop.org/software/systemd/man
+UCPPATH=$HOME/Documents/tongue/docs.mirantis.com/docker-enterprise
 UBUNTUPATH1=$HOME/Documents/tongue/assets.ubuntu.com/v1
 UBUNTUPATH2=$HOME/Documents/tongue/help.ubuntu.com
 LOGPATH=/var/log/tongue
@@ -50,6 +59,10 @@ while [ "$1" != "" ]; do
                               CALIBRESEARCH=yes ; FILE=pdf ; CALIBRE=$1
                               shift
                               ;;
+      -b | --rabbitmq )       shift
+                              RABBITMQSEARCH=yes ; FILE=html ; RABBITMQ=$1
+                              shift
+                              ;;
       -c | --ceph )           shift
                               CEPHSEARCH=yes ; FILE=html ; CEPH=$1
                               shift
@@ -58,12 +71,20 @@ while [ "$1" != "" ]; do
                               OPENSTACKSEARCH=yes ; FILE=html ; OPENSTACK=$1
                               shift
                               ;;
+      -f | --ucp )            shift
+                              UCPSEARCH=yes ; FILE=html ; UCP=$1
+                              shift
+                              ;;
       -g | --man-pages )      shift
                               MANPAGESSEARCH=yes ; FILE=html ; MANPAGES=$1
                               shift
                               ;;
       -k | --kubernetes )     shift
                               KUBERNETESSEARCH=yes ; FILE=html ; KUBERNETES=$1
+                              shift
+                              ;;
+      -m | --mcp )            shift
+                              MCPSEARCH=yes ; FILE=html ; MCP=$1
                               shift
                               ;;
       -n | --kernel )         shift
@@ -115,6 +136,90 @@ done
 if [ ! -d "$LOGPATH" ]; then echo "Seems like you are running tongue for the first time. At this stage, we need sudo permissions to create the directory $LOGPATH, where the search results will be stored. Please provide the password bellow if prompted:" ; sudo mkdir $LOGPATH; sudo chown $USER $LOGPATH; exit 1; fi
 if [ "$FILE" = "image" ] && [[ "$CEPHSEARCH"||"$OPENSTACKSEARCH"||"$SYSTEMDSEARCH"||"$KUBERNETESSEARCH"||"$CLOUDINITSEARCH" = "" ]]; then echo "Image search runs only with -c, -e, -k, -t or -y parameters"; fi
 
+## RABBITMQ SEARCH START ##
+if [ "$FILE" = "html" ] && [ "$RABBITMQSEARCH" = "yes" ]; then
+    if [ -z "$RABBITMQ" ] && [ -z "$SEARCH" ]; then echo "RABBITMQ field (-b) and search field (-s) are empty. Possible values for (-b) field are:"; ls $RABBITMQPATH/ 2>/dev/null; exit 1; fi
+    if [ -z "$RABBITMQ" ] && [ ! -z "$SEARCH" ]; then echo "RABBITMQ field (-b) is empty. Possible values are:"; ls $RABBITMQPATH 2>/dev/null; exit 1; fi
+    if [ ! -z "$RABBITMQ" ] && [ -z "$SEARCH" ]; then echo "Search field is empty. Add -s <search> to start searching."; exit 1; fi
+# save url list
+    echo "Searching for '"$SEARCH"' on RABBITMQ pages for '"$RABBITMQ"'. Please wait"
+    grep -E -rc $CASE --include \*.$FILE "$SEARCH" $RABBITMQPATH/$RABBITMQ 2> /dev/null |grep -v '\:0' |sed 's/html\:/html \:/g' |sort -V > $LOGPATH/tongue-urls-match
+    grep -E -rl $CASE --include \*.$FILE "$SEARCH" $RABBITMQPATH/$RABBITMQ 2> /dev/null > $LOGPATH/tongue-urls
+    URLNUMBER=$(cat $LOGPATH/tongue-urls-match |wc -l)
+    if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
+# perform search and pipe it to less
+    printf "${RED}----------------- [RABBITMQ DOCUMENTATION SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $RABBITMQPATH/$RABBITMQ 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
+# show report
+    echo " "
+    printf "${RED}----------------- [RABBITMQ DOCUMENTATION SEARCH REPORT] -----------------${NC}\n" > $LOGPATH/tongue-reports
+    printf "The term '${RED}$SEARCH${NC}' was found on ${RED}$URLNUMBER${NC} page(s):\n" >> $LOGPATH/tongue-reports
+    cat $LOGPATH/tongue-urls-match >> $LOGPATH/tongue-reports
+    sed "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" $LOGPATH/tongue-reports |sort -n -t ':' -k3n,3n >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    sed "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" $LOGPATH/tongue-reports |sort -n -t ':' -k3n,3n |less -F -X -R
+    echo " "
+    echo "The search results were saved to $(ls -t $LOGPATH/tongue-results*| head -1)";
+    echo " "
+fi
+## RABBITMQ SEARCH END ##
+
+## MCP SEARCH START ##
+if [ "$FILE" = "html" ] && [ "$MCPSEARCH" = "yes" ]; then
+    if [ -z "$MCP" ] && [ -z "$SEARCH" ]; then echo "MCP field (-m) and search field (-s) are empty. Possible values for (-m) field are:"; ls $MCPPATH/ 2>/dev/null; exit 1; fi
+    if [ -z "$MCP" ] && [ ! -z "$SEARCH" ]; then echo "MCP field (-m) is empty. Possible values are:"; ls $MCPPATH 2>/dev/null; exit 1; fi
+    if [ ! -z "$MCP" ] && [ -z "$SEARCH" ]; then echo "Search field is empty. Add -s <search> to start searching."; exit 1; fi
+# save url list
+    echo "Searching for '"$SEARCH"' on MCP pages for '"$MCP"'. Please wait"
+    grep -E -rc $CASE --include \*.$FILE "$SEARCH" $MCPPATH/$MCP 2> /dev/null |grep -v '\:0' |sed 's/html\:/html \:/g' |sort -V > $LOGPATH/tongue-urls-match
+    grep -E -rl $CASE --include \*.$FILE "$SEARCH" $MCPPATH/$MCP 2> /dev/null > $LOGPATH/tongue-urls
+    URLNUMBER=$(cat $LOGPATH/tongue-urls-match |wc -l)
+    if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
+# perform search and pipe it to less
+    printf "${RED}----------------- [MCP DOCUMENTATION SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $MCPPATH/$MCP 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
+# show report
+    echo " "
+    printf "${RED}----------------- [MCP DOCUMENTATION SEARCH REPORT] -----------------${NC}\n" > $LOGPATH/tongue-reports
+    printf "The term '${RED}$SEARCH${NC}' was found on ${RED}$URLNUMBER${NC} page(s):\n" >> $LOGPATH/tongue-reports
+    cat $LOGPATH/tongue-urls-match >> $LOGPATH/tongue-reports
+    sed "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" $LOGPATH/tongue-reports |sort -n -t ':' -k3n,3n >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    sed "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" $LOGPATH/tongue-reports |sort -n -t ':' -k3n,3n |less -F -X -R
+    echo " "
+    echo "The search results were saved to $(ls -t $LOGPATH/tongue-results*| head -1)";
+    echo " "
+fi
+## MCP SEARCH END ##
+
+## UCP SEARCH START ##
+if [ "$FILE" = "html" ] && [ "$UCPSEARCH" = "yes" ]; then
+    if [ -z "$UCP" ] && [ -z "$SEARCH" ]; then echo "UCP field (-f) and search field (-s) are empty. Possible values for (-f) field are:"; ls $UCPPATH/ 2>/dev/null; exit 1; fi
+    if [ -z "$UCP" ] && [ ! -z "$SEARCH" ]; then echo "UCP field (-f) is empty. Possible values are:"; ls $UCPPATH 2>/dev/null; exit 1; fi
+    if [ ! -z "$UCP" ] && [ -z "$SEARCH" ]; then echo "Search field is empty. Add -s <search> to start searching."; exit 1; fi
+# save url list
+    echo "Searching for '"$SEARCH"' on UCP pages for '"$UCP"'. Please wait"
+    grep -E -rc $CASE --include \*.$FILE "$SEARCH" $UCPPATH/$UCP 2> /dev/null |grep -v '\:0' |sed 's/html\:/html \:/g' |sort -V > $LOGPATH/tongue-urls-match
+    grep -E -rl $CASE --include \*.$FILE "$SEARCH" $UCPPATH/$UCP 2> /dev/null > $LOGPATH/tongue-urls
+    URLNUMBER=$(cat $LOGPATH/tongue-urls-match |wc -l)
+    if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
+# perform search and pipe it to less
+    printf "${RED}----------------- [UCP DOCUMENTATION SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $UCPPATH/$UCP 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
+# show report
+    echo " "
+    printf "${RED}----------------- [UCP DOCUMENTATION SEARCH REPORT] -----------------${NC}\n" > $LOGPATH/tongue-reports
+    printf "The term '${RED}$SEARCH${NC}' was found on ${RED}$URLNUMBER${NC} page(s):\n" >> $LOGPATH/tongue-reports
+    cat $LOGPATH/tongue-urls-match >> $LOGPATH/tongue-reports
+    sed "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" $LOGPATH/tongue-reports |sort -n -t ':' -k3n,3n >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    sed "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" $LOGPATH/tongue-reports |sort -n -t ':' -k3n,3n |less -F -X -R
+    echo " "
+    echo "The search results were saved to $(ls -t $LOGPATH/tongue-results*| head -1)";
+    echo " "
+fi
+## UCP SEARCH END ##
+
 ## CALIBRE SEARCH START ##
 if [ "$FILE" = "pdf" ] && [ "$CALIBRESEARCH" = "yes" ]; then
     if [ -z "$CALIBRE" ] && [ -z "$SEARCH" ]; then echo "CALIBRE field (-a) and search field (-s) are empty. Possible values for (-a) field are:"; ls -d $CALIBREPATH/*/* | sed -e "s|$CALIBREPATH||g" | less -F -X -R 2>/dev/null; exit 1; fi
@@ -156,7 +261,7 @@ if [ "$FILE" = "html" ] && [ "$CEPHSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [CEPH PAGES SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $CEPHPATH/$CEPH 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $CEPHPATH/$CEPH 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -207,7 +312,7 @@ if [ "$FILE" = "html" ] && [ "$CLOUDINITSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [CLOUD-INIT SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $CLOUDINITPATH/$CLOUDINIT 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|http\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $CLOUDINITPATH/$CLOUDINIT 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|http\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -258,7 +363,7 @@ if [ "$FILE" = "html" ] && [ "$KERNELSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [KERNEL PAGES SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $KERNELPATH/$KERNEL 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $KERNELPATH/$KERNEL 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -286,7 +391,7 @@ if [ "$FILE" = "html" ] && [ "$KUBERNETESSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [KUBERNETES PAGES SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $KUBERNETESPATH/$KUBERNETES 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $KUBERNETESPATH/$KUBERNETES 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -337,7 +442,7 @@ if [ "$FILE" = "html" ] && [ "$MANPAGESSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [LINUX MAN PAGES SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $MANPAGESPATH/$MANPAGES 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|http\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $MANPAGESPATH/$MANPAGES 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|http\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -365,7 +470,7 @@ if [ "$FILE" = "html" ] && [ "$MODULESEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [MODULE DATABASE SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $MODULEPATH/$MODULE 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $MODULEPATH/$MODULE 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -393,7 +498,7 @@ if [ "$FILE" = "html" ] && [ "$OPENSTACKSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [OPENSTACK SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $OPENSTACKPATH/$OPENSTACK 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|http\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >>  $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $OPENSTACKPATH/$OPENSTACK 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|http\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >>  $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -444,7 +549,7 @@ if [ "$FILE" = "html" ] && [ "$SYSTEMDSEARCH" = "yes" ]; then
     if [ "$URLNUMBER" = "0" ]; then echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."; exit 1; fi
 # perform search and pipe it to less
     printf "${RED}----------------- [SYSTEMD SEARCH RESULTS] -----------------${NC}\n" > $LOGPATH/tongue-results-$DATE
-    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $SYSTEMDPATH/$SYSTEMD 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
+    grep -E --color=always -r $CASE --include \*.$FILE "$SEARCH" $SYSTEMDPATH/$SYSTEMD 2> /dev/null |sed -e "s/<[^>]*>//g" -e "s|$HOME\/Documents\/tongue\/|https\:\/\/|g" -e "s|\.html|.html |g" -e "s:%25:%:g" -e "s:%20: :g" -e "s:%3C:<:g" -e "s:%3E:>:g" -e "s:%23:#:g" -e "s:%7B:{:g" -e "s:%7D:}:g" -e "s:%40:@:g" -e "s:%7C:|:g" -e "s:%7E:~:g" -e "s:%5B:\[:g" -e "s:%5D:\]:g" -e "s:%3B:\;:g" -e "s:%2F:/:g" -e "s:%3F:?:g" -e "s^%3A^:^g" -e "s:%3D:=:g" -e "s:%26:&:g" -e "s:%24:\$:g" -e "s:%21:\!:g" -e "s:%2A:\*:g" -e "s:%22:\":g" -e "s:\&quot;:\":g" -e "s:\&#246;:ö:g" -e "s:\&\#252\;:ü:g" -e "s:\&\#196\;:Ä:g" -e "s:\&\#64\;:@:g" -e "s:\&amp;:\&:g" -e "s:\&gt\;:>:g" -e "s:\&lt\;:<:g" -e "s:\&\#160\;: :g" -e "s:\&\#39\;:\':g" -e "s:\&\#34\;:\":g" -e "s:\&lsquo\;:\‘:g" -e "s:\&rsquo\;:\’:g" >> $(ls -t $LOGPATH/tongue-results*| head -1)
     less -R -F -X -I $(ls -t $LOGPATH/tongue-results*| head -1)
 # show report
     echo " "
@@ -520,14 +625,17 @@ if [ "$HELP" = "yes" ] && [ "$FILE" = "" ]; then
     echo " "
     echo "Option list:"
     echo "-a, --calibre = Search on Calibre library"
+    echo "-b, --rabbitmq = Search on rabbitmq official documentation"
     echo "-c, --ceph = Search on Ceph official documentation"
     echo "-e, --openstack = Search on openstack official documentation"
+    echo "-f, --ucp = Search on mirantis UCP documentation"
     echo "-g, --man-pages = Search on linux man pages"
     echo "-h, --help = Display a list of options to chose from"
     echo "-i, --case-sensitive = Searches are case sensitive."
     echo "-I, --image = Search for png files only. If you use this option, you need to specify -c, -e, -k, -t or -y"
     echo "-k, --kubernetes = Search on kubernetes official documentation"
     echo "-l, --list = Display a list of documentations that you can select"
+    echo "-m, --mcp = Search on mirantis MCP documentation"
     echo "-n, --kernel = Search on kernel official documentation"
     echo "-o, --module = Search on kernel module database"
     echo "-s, --search = Search string. If you are searching for more then one word, put all into quotes ''"
