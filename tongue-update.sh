@@ -97,9 +97,9 @@ wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://www.freedesk
 #wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://www.freedesktop.org/wiki/Software/systemd/NetworkTarget --directory-prefix $DOCUMENTPATH
 
 #CEPH DOCUMENTATION
-wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.com/docs/master/radosgw --directory-prefix $DOCUMENTPATH
-wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.com/docs/master/rbd --directory-prefix $DOCUMENTPATH
-wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.com/docs/master/cephfs --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.com/en/latest/radosgw --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.com/en/latest/rbd --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.com/en/latest/cephfs --directory-prefix $DOCUMENTPATH
 
 #SYSTEMD DOCUMENTATION
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://systemd.io --directory-prefix $DOCUMENTPATH

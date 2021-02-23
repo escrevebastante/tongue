@@ -37,7 +37,7 @@ CASE=-i
 FINDCASE=i
 
 CALIBREPATH=$HOME/Documents/calibre
-CEPHPATH=$HOME/Documents/tongue/docs.ceph.com/docs/master
+CEPHPATH=$HOME/Documents/tongue/docs.ceph.com/en/latest
 CLOUDINITPATH=$HOME/Documents/tongue/cloudinit.readthedocs.io/en/latest/topics
 KERNELPATH=$HOME/Documents/tongue/www.kernel.org/doc/html/latest
 MCPPATH=$HOME/Documents/tongue/docs.mirantis.com/mcp
