@@ -42,8 +42,8 @@ Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '\*' -s ocfs2\|n
 -y, --systemd = Search on systemd official documentation<br><br>
 
 # Practical examples:<br>
-Search only on multiple e-books/authors: tongue -c '*Sebastian*' -s 'system wide trusted certificate'<br>
-"Search only on ubuntu 16.x documentation pages: tongue -u '*16*' -s 'system wide trusted certificate'<br>
+Search only on multiple e-books/authors: tongue -c '\*Sebastian\*' -s 'system wide trusted certificate'<br>
+"Search only on ubuntu 16.x documentation pages: tongue -u '\*16\*' -s 'system wide trusted certificate'<br>
 Search on all openstack documentation: tongue -e '*' -s 'nova'<br>
 Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '*' -s ocfs2\|nfs<br><br>
 
