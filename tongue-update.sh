@@ -105,8 +105,8 @@ wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://docs.ceph.co
 wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://systemd.io --directory-prefix $DOCUMENTPATH
 
 #RABBITMQ DOCUMENTATION
-wget -c -N -r --no-parent -A https://www.rabbitmq.com/admin-guide.html --directory-prefix $DOCUMENTPATH
-wget -c -N -r --no-parent -A https://www.rabbitmq.com/clients.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://www.rabbitmq.com/admin-guide.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -A html,png,css,jpg,jpeg,svg -t 1 https://www.rabbitmq.com/clients.html --directory-prefix $DOCUMENTPATH
 
 #OPENSTACK
 #Rocky
