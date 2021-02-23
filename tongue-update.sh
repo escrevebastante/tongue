@@ -36,20 +36,24 @@ wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mcp/q4-18/mcp-security-
 #UCP DOCUMENTATION
 #Docker enterprise v2.1
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v2.1/dockeree-products/single/index.html --directory-prefix $DOCUMENTPATH
-wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v2.1/dockeree-ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
-wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v2.1/dockeree-solution-guides/single/index.html --directory-prefix $DOCUMENTPATH
 #Docker enterprise v3.1
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-products/single/index.html --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-solution-guides/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-release-notes/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-OSS-download/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/docker-enterprise/v3.1/dockeree-compatibility-matrix/single/index.html --directory-prefix $DOCUMENTPATH
 # MOS - Mirantis OpenStack for Kubernetes Documentation
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/ops-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/mos/latest/release-notes/single/index.html --directory-prefix $DOCUMENTPATH
 # Mirantis Container Cloud
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/ref-arch/single/index.html --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/deployment-guide/single/index.html --directory-prefix $DOCUMENTPATH
 wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/operations-guide/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/compat-matrix/single/index.html --directory-prefix $DOCUMENTPATH
+wget -c -N -r --no-parent -t 1 https://docs.mirantis.com/container-cloud/latest/release-notes/single/index.html --directory-prefix $DOCUMENTPATH
 
 #UBUNTU DOCUMENTATION
 #20.04 (LTS)

@@ -20,21 +20,26 @@ Search on all openstack documentation: tongue -e '\*' -s 'nova' <br>
 Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '\*' -s ocfs2\|nfs <br><br>
 
 # Option list:<br>
--a, --calibre = Search on Calibre library"<br>
--c, --ceph = Search on Ceph official documentation"<br>
--e, --openstack = Search on openstack official documentation"<br>
--g, --man-pages = Search on linux man pages"<br>
--h, --help = Display a list of options to chose from"<br>
--i, --case-sensitive = Searches are case sensitive."<br>
--I, --image = Search for png files only. If you use this option, you need to specify -c, -e, -k, -t or -y"<br>
--k, --kubernetes = Search on kubernetes official documentation"<br>
--l, --list = Display a list of documentations that you can select"<br>
--n, --kernel = Search on kernel official documentation"<br>
--o, --module = Search on kernel module database"<br>
--s, --search = Search string. If you are searching for more then one word, put all into quotes ''"<br>
--t, --cloud-init = Search on cloud-init documentation"<br>
--u, --ubuntu = Search on ubuntu official documentation"<br>
--y, --systemd = Search on systemd official documentation"<br><br>
+-a, --calibre = Search on Calibre library<br>
+-b, --rabbitmq = Search on rabbitmq official documentation<br>
+-c, --ceph = Search on Ceph official documentation<br>
+-d, --docker-enterprise = Search on docker enterprise documentation<br>
+-e, --openstack = Search on openstack official documentation<br>
+-f, --container-cloud = Search on mirantis container cloud documentation<br>
+-g, --man-pages = Search on linux man pages<br>
+-h, --help = Display a list of options to chose from<br>
+-i, --case-sensitive = Searches are case sensitive.<br>
+-I, --image = Search for png files only. If you use this option, you need to specify -c, -e, -k, -t or -y<br>
+-j, --mos = Search on mirantis MOS documentation<br>
+-k, --kubernetes = Search on kubernetes official documentation<br>
+-l, --list = Display a list of documentations that you can select<br>
+-m, --mcp = Search on mirantis MCP documentation<br>
+-n, --kernel = Search on kernel official documentation<br>
+-o, --module = Search on kernel module database<br>
+-s, --search = Search string. If you are searching for more then one word, put all into quotes ''<br>
+-t, --cloud-init = Search on cloud-init documentation<br>
+-u, --ubuntu = Search on ubuntu official documentation<br>
+-y, --systemd = Search on systemd official documentation<br><br>
 
 # Practical examples:<br>
 Search only on multiple e-books/authors: tongue -c '*Sebastian*' -s 'system wide trusted certificate'<br>
