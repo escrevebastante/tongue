@@ -44,8 +44,8 @@ Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '\*' -s ocfs2\|n
 # Practical examples:<br>
 Search only on multiple e-books/authors: tongue -c '\*Sebastian\*' -s 'system wide trusted certificate'<br>
 "Search only on ubuntu 16.x documentation pages: tongue -u '\*16\*' -s 'system wide trusted certificate'<br>
-Search on all openstack documentation: tongue -e '*' -s 'nova'<br>
-Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '*' -s ocfs2\|nfs<br><br>
+Search on all openstack documentation: tongue -e '\*' -s 'nova'<br>
+Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '\*' -s ocfs2\|nfs<br><br>
 
 6 - A list of html files will be displayed on the left side. Do Ctrl+Click on the links to open them in your webrowser. Once you find what you need, open the page you downloaded with your browser (i suggest using w3m if you want to open that from the terminal. If you want to display images through w3m, dont forget to install "xv" and "w3m-inline-image" packages)<br>
 7 - Enjoy<br>
