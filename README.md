@@ -40,8 +40,8 @@ Kubernetes documentation: tongue -k RELEASENOTE -s SEARCH_STRING (options: -i fo
 -y, --systemd = Search on systemd official documentation<br>
  <br>
 # Practical examples:<br>
-Search for multiple e-books/authors: tongue -a '*Sebastian*' -s 'system wide trusted certificate'<br>
-Search only on ubuntu 16.x documentation pages: tongue -u '*16*' -s 'system wide trusted certificate'<br>
-Search for nova on all openstack documentation: tongue -e '*' -s 'nova'<br>
-Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '*' -s ocfs2|nfs<br>
+Search for multiple e-books/authors: tongue -a '\*Sebastian\*' -s 'system wide trusted certificate'<br>
+Search only on ubuntu 16.x documentation pages: tongue -u '\*16\*' -s 'system wide trusted certificate'<br>
+Search for nova on all openstack documentation: tongue -e '\*' -s 'nova'<br>
+Search for 'ocfs2' or 'nfs' on systemd documentation: tongue -y '\*' -s ocfs2|nfs<br>
 <br>
