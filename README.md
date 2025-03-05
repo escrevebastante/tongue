@@ -50,5 +50,5 @@ tongue -e '*' -s 'nova'
 ```
 Search for 'ocfs2' or 'nfs' on systemd documentation:<br>
 ```
-tongue -y '*' -s ocfs2|nfs<br>
+tongue -y '*' -s ocfs2|nfs
 ```
