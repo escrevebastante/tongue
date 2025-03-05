@@ -9,6 +9,13 @@ then
     sudo apt-get install html2text -y
     exit 1
 fi
+if ! command -v git 2>&1 >/dev/null
+then
+    echo "the command git could not be found. Installing"
+    sudo dnf install git -y
+    sudo apt-get install git -y
+    exit 1
+fi
 
 #Mirantis Documentation
 rm -rf $DOCUMENTPATH/docs.mirantis.com
@@ -258,4 +265,5 @@ echo "Removing html tags from files. This operation may take several minutes. Pl
 find $DOCUMENTPATH/* -type f -name "*.md" -exec sed -i -e "s/<[^>]*>//g" -e "/^$/d" {} \;
 find $DOCUMENTPATH/* -type f -name "*.mdx" -exec sed -i -e "s/<[^>]*>//g" -e "/^$/d" {} \;
 find $DOCUMENTPATH/* -type f -name "*.rst" -exec sed -i -e "s/<[^>]*>//g" -e "/^$/d" {} \;
+find $DOCUMENTPATH/* -type f -name "*.md0" -exec rm {} \;
 echo "Update completed."
