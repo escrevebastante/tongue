@@ -27,6 +27,7 @@ UBUNTU=
 PROMETHEUS=
 CALICO=
 TUNGSTEN=
+K0RDENT=
 
 CALIBRESEARCH=
 CEPHSEARCH=
@@ -42,6 +43,7 @@ UBUNTUSEARCH=
 PROMETHEUSSEARCH=
 CALICOSEARCH=
 TUNGSTENSEARCH=
+K0RDENTSEARCH=
 
 GREPCASE=-i
 RGCASE=-i
@@ -63,6 +65,7 @@ MARIADBPATH=$HOME/Downloads/tongue/mariadb
 PROMETHEUSPATH=$HOME/Downloads/tongue/prometheus.io/content/docs
 CALICOPATH=$HOME/Downloads/tongue/docs.tigera.io/calico
 TUNGSTENPATH=$HOME/Downloads/tongue/github.com/OpenSDN-io/docs
+K0RDENTPATH=$HOME/Downloads/tongue/github.com/k0rdent/docs
 LOGPATH=/var/log/tongue
 
 while [ "$1" != "" ]; do
@@ -108,6 +111,13 @@ while [ "$1" != "" ]; do
     PROMETHEUSSEARCH=yes
     FILE=md
     PROMETHEUS=$1
+    shift
+    ;;
+  -g | --k0rdent)
+    shift
+    K0RDENTSEARCH=yes
+    FILE=md
+    K0RDENT=$1
     shift
     ;;
   -j | --calico)
@@ -915,6 +925,50 @@ if [ "$FILE" = "rst" ] && [ "$TUNGSTENSEARCH" = "yes" ]; then
 fi
 ## TUNGSTEN SEARCH END ##
 
+## K0RDENT SEARCH START ##
+if [ "$FILE" = "md" ] && [ "$K0RDENTSEARCH" = "yes" ]; then
+  if [ -z "$K0RDENT" ] && [ -z "$SEARCH" ]; then
+    echo "K0RDENT field (-g) and search field (-s) are empty. Possible values for (-g) field are:"
+    ls --color=auto $K0RDENTPATH/ 2>/dev/null
+    exit 1
+  fi
+  if [ -z "$K0RDENT" ] && [ ! -z "$SEARCH" ]; then
+    echo "K0RDENT field (-g) is empty. Possible values are:"
+    ls --color=auto $K0RDENTPATH 2>/dev/null
+    exit 1
+  fi
+  if [ ! -z "$K0RDENT" ] && [ -z "$SEARCH" ]; then
+    echo "Search field is empty. Add -s <search> to start searching."
+    exit 1
+  fi
+  # save url list
+  echo "Searching for '"$SEARCH"' on K0RDENT pages for '"$K0RDENT"'. Please wait"
+  $GREP -E -rc $GREPCASE --include \*.$FILE "$SEARCH" $K0RDENTPATH/$K0RDENT 2>/dev/null | $GREP -v \:0 | sed -e 's/\.md/\/ /g' | sort -V >$LOGPATH/tongue-urls-match
+  #$GREP -E -rc $GREPCASE --include \*.$FILE "$SEARCH" $K0RDENTPATH/$K0RDENT 2>/dev/null | $GREP -v \:0 | sort -V >$LOGPATH/tongue-urls-match
+  $GREP -E -rl $GREPCASE --include \*.$FILE "$SEARCH" $K0RDENTPATH/$K0RDENT 2>/dev/null >$LOGPATH/tongue-urls
+  URLNUMBER=$(cat $LOGPATH/tongue-urls-match | wc -l)
+  if [ "$URLNUMBER" = "0" ]; then
+    echo "Search not found. Make sure the fields are correctly filled. Run 'tongue -h' for help."
+    exit 1
+  fi
+  # perform search and pipe it to less
+  printf "${RED}----------------- [K0RDENT DOCUMENTATION SEARCH RESULTS] -----------------${NC}\n" >$LOGPATH/tongue-results-$DATE
+  #$GREP -E --color=always -r $GREPCASE --include \*.$FILE "$SEARCH" $K0RDENTPATH/$K0RDENT 2>/dev/null | sed -e "s|$HOME\/Downloads\/tongue\/|https\:\/\/|g" >>$(ls -t $LOGPATH/tongue-results* | head -1)
+  $RG $RGCASE -g'*{.md}' "$SEARCH" $K0RDENTPATH/$K0RDENT | sed -e "s|$HOME\/Downloads\/tongue\/github\.com\/k0rdent\/docs\/docs|https\:\/\/docs\.k0rdent-enterprise\.io\/latest|g" -e 's/\.md/\/ /g' >>$(ls -t $LOGPATH/tongue-results* | head -1)
+  $LESS1 $(ls -t $LOGPATH/tongue-results* | head -1)
+  # show report
+  echo " "
+  printf "${RED}----------------- [K0RDENT DOCUMENTATION SEARCH REPORT] -----------------${NC}\n" >$LOGPATH/tongue-reports
+  printf "The term '${RED}$SEARCH${NC}' was found on ${RED}$URLNUMBER${NC} page(s):\n" >>$LOGPATH/tongue-reports
+  cat $LOGPATH/tongue-urls-match >>$LOGPATH/tongue-reports
+  sed "s|$HOME\/Downloads\/tongue\/github\.com\/k0rdent\/docs\/docs|https\:\/\/docs\.k0rdent-enterprise\.io\/latest|g" $LOGPATH/tongue-reports | sort -n -t ':' -k3n,3n >>$(ls -t $LOGPATH/tongue-results* | head -1)
+  sed "s|$HOME\/Downloads\/tongue\/github\.com\/k0rdent\/docs\/docs|https\:\/\/docs\.k0rdent-enterprise\.io\/latest|g" $LOGPATH/tongue-reports | sort -n -t ':' -k3n,3n | $LESS2
+  echo " "
+  echo "The search results were saved to $(ls -t $LOGPATH/tongue-results* | head -1)"
+  echo " "
+fi
+## K0RDENT SEARCH END ##
+
 ## HELP START ##
 if [ "$HELP" = "yes" ] && [ "$FILE" = "" ]; then
   echo "Examples:"
@@ -929,6 +983,7 @@ if [ "$HELP" = "yes" ] && [ "$FILE" = "" ]; then
   echo "-d, --docker-enterprise = Search on docker enterprise documentation"
   echo "-e, --openstack = Search on openstack official documentation"
   echo "-f, --prometheus = Search on prometheus documentation"
+  echo "-g, --k0rdent = Search on k0rdent documentation"
   echo "-h, --help = Display a list of options to chose from"
   echo "-i, --case-sensitive = Searches are case sensitive."
   echo "-j, --calico = Search on Calico documentation"
