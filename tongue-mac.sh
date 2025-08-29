@@ -62,7 +62,7 @@ UBUNTUPATH=$HOME/Downloads/tongue/documentation.ubuntu.com/server
 MARIADBPATH=$HOME/Downloads/tongue/mariadb
 PROMETHEUSPATH=$HOME/Downloads/tongue/prometheus.io/content/docs
 CALICOPATH=$HOME/Downloads/tongue/docs.tigera.io/calico
-TUNGSTENPATH=$HOME/Downloads/tongue/github.com/tungstenfabric/docs
+TUNGSTENPATH=$HOME/Downloads/tongue/github.com/OpenSDN-io/docs
 LOGPATH=/var/log/tongue
 
 while [ "$1" != "" ]; do
@@ -208,23 +208,20 @@ if [ ! -d "$LOGPATH" ]; then
 fi
 find $LOGPATH -type f -mtime +60 -exec rm {} \;
 
-if ! command -v ggrep 2>&1 >/dev/null
-then
-    echo "the command ggrep could not be found. Installing"
-    brew install ggrep
-    exit 1
+if ! command -v ggrep 2>&1 >/dev/null; then
+  echo "the command ggrep could not be found. Installing"
+  brew install ggrep
+  exit 1
 fi
-if ! command -v pdfgrep 2>&1 >/dev/null
-then
-    echo "the command pdfgrep could not be found. Installing"
-    brew install pdfgrep
-    exit 1
+if ! command -v pdfgrep 2>&1 >/dev/null; then
+  echo "the command pdfgrep could not be found. Installing"
+  brew install pdfgrep
+  exit 1
 fi
-if ! command -v rg 2>&1 >/dev/null
-then
-    echo "the command rg could not be found. Installing"
-    brew install ripgrep
-    exit 1
+if ! command -v rg 2>&1 >/dev/null; then
+  echo "the command rg could not be found. Installing"
+  brew install ripgrep
+  exit 1
 fi
 
 #if [ -z "$*" ]; then echo "No arguments found. Type 'tongue -h' to list all options"; fi
@@ -1020,7 +1017,7 @@ if [ "$LIST" = "yes" ]; then
   printf "${RED}Here is a list on SYSTEMD that you can search with the option "-y" (systemd search):${NC}\n"
   echo " "
   ls --color=auto $SYSTEMDPATH 2>/dev/null
-  echo " " 
+  echo " "
   printf "${RED}NOTE: You can also use "*" character as a wildcard (example: "sles*")${NC}\n"
 
 fi
